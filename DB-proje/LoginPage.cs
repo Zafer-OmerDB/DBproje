@@ -22,6 +22,7 @@ namespace DB_proje
         string connectionString = "Data Source=DESKTOP-7AVOOGO\\SQLEXPRESS;" +
                 "Initial Catalog=ProjectAppDB;" +
                 "Integrated Security=SSPI;";
+        //Data Source=DESKTOP-H51NODI  OMER PC SOURCE
         SqlConnection cnn;
 
 
@@ -101,7 +102,7 @@ namespace DB_proje
                 
                     if (durum)
                 {
-                    String command = "SELECT COUNT(*) FROM tbl_Person WHERE Email = @email and Password = @password";
+                    String command = "SELECT * FROM tbl_Person WHERE Email = @email and Password = @password";
                     SqlCommand cmd = new SqlCommand(command, cnn);
                     cmd.Parameters.AddWithValue("@email", textBox1.Text);
                     cmd.Parameters.AddWithValue("@password", textBox2.Text);

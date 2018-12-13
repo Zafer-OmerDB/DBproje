@@ -13,7 +13,7 @@ namespace DB_proje
 {
     public partial class HomePage : Form
     {
-        int id;
+        int MusteriID,CalisanID;
         string connectionString = "Data Source=DESKTOP-7AVOOGO\\SQLEXPRESS;" +
                 "Initial Catalog=ProjectAppDB;" +
                 "Integrated Security=SSPI;";
@@ -31,7 +31,7 @@ namespace DB_proje
         {
             label1.Text="E posta : "+email;
             cnn = new SqlConnection(connectionString);
-            String command = "SELECT FirstName,LastName,MusteriID FROM tbl_Person WHERE Email = @email";
+            String command = "SELECT FirstName,LastName,MusteriID,CalisanID FROM tbl_Person WHERE Email = @email";
             SqlCommand cmd = new SqlCommand(command, cnn);
             cmd.Parameters.AddWithValue("@email", email);
             
@@ -39,13 +39,24 @@ namespace DB_proje
             DataTable dt = new DataTable();
             da.Fill(dt);
 
-            string kisiID = dt.Rows[0][2].ToString();
+            string musteriID = dt.Rows[0][2].ToString();
             string firstName = dt.Rows[0][0].ToString();
             string lastName = dt.Rows[0][1].ToString();
+            string calisanID = dt.Rows[0][3].ToString();
+
             label2.Text = "Hoşgeldiniz Sayın : "+firstName + " " + lastName;
-            if (kisiID == "") id = 0;
-            else id = Int16.Parse(kisiID);
-            MessageBox.Show("Müşteri ID "+id.ToString());
+            if (musteriID == "" )
+            {
+                MusteriID = 0;
+          
+            }
+            else MusteriID = Int16.Parse(musteriID);
+            if (calisanID != "")
+            {
+                CalisanID = Int16.Parse(calisanID);
+            }
+            
+            MessageBox.Show("Müşteri ID "+MusteriID.ToString()+"Calisan ID : "+CalisanID.ToString());
            
 
 
@@ -65,7 +76,7 @@ namespace DB_proje
             cnn = new SqlConnection(connectionString);
             String command = "Select ProjeAdi,ProjeAciklama from MusteriProje as k inner join tbl_Proje as p on k.ProjeID=p.ProjeID inner join tbl_Musteri as m on m.KisiID=1 and k.MusteriID=@id";
             SqlCommand cmd = new SqlCommand(command, cnn);
-            cmd.Parameters.AddWithValue("@id", id);
+            cmd.Parameters.AddWithValue("@id", MusteriID);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
 
             DataSet ds = new DataSet();
